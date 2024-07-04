@@ -1,19 +1,25 @@
 import { ShoppingCart } from 'phosphor-react'
 import { CatalogueItemContainer } from './styles'
 interface CatalogueItemProps {
+  id: string
   title: string
   description: string
   price: number
   tags: []
   image: string
+  qty: number
+  onIncrement: (id: string) => void
 }
 
 export function CatalogueItem({
+  id,
   title,
   description,
   price,
   tags,
   image,
+  qty,
+  onIncrement,
 }: CatalogueItemProps) {
   return (
     <CatalogueItemContainer>
@@ -35,8 +41,10 @@ export function CatalogueItem({
         </span>
         <div className="counter">
           <button className="decrement">-</button>
-          <div className="qty">0</div>
-          <button className="increment">+</button>
+          <div className="qty">{qty}</div>
+          <button className="increment" onClick={() => onIncrement(id)}>
+            +
+          </button>
         </div>
         <a className="cart">
           <ShoppingCart weight="fill" size={24} />

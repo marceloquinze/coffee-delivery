@@ -9,6 +9,7 @@ interface Coffees {
   price: number
   tags: []
   image: string
+  qty: number
 }
 
 export function Catalogue() {
@@ -28,6 +29,14 @@ export function Catalogue() {
       })
   }, [])
 
+  function handleIncrement(idToIncrement: string) {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === idToIncrement ? { ...item, qty: item.qty + 1 } : item,
+      ),
+    )
+  }
+
   return (
     <div>
       <CatalogueContainer>
@@ -37,11 +46,14 @@ export function Catalogue() {
             return (
               <CatalogueItem
                 key={item.id}
+                id={item.id}
                 title={item.title}
                 description={item.description}
                 price={item.price}
                 tags={item.tags}
                 image={item.image}
+                qty={item.qty}
+                onIncrement={handleIncrement}
               />
             )
           })}

@@ -83,6 +83,12 @@ export const CatalogueItemContainer = styled.div`
       height: 38px;
       padding: 0.5rem;
       border-radius: 8px;
+      transition: 0.5s all;
+      cursor: pointer;
+
+      &:hover {
+        background-color: ${(props) => props.theme.purple};
+      }
     }
 
     .counter {
@@ -104,6 +110,7 @@ export const CatalogueItemContainer = styled.div`
         border: none;
         color: ${(props) => props.theme.purple};
         font-size: 1rem;
+        cursor: pointer;
       }
     }
   }

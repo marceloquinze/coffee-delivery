@@ -7,7 +7,8 @@
 		"tags": [
 			"traditional"
 		],
-		"image": "../assets/Expresso.png"
+		"image": "../assets/Expresso.png",
+		"qty": 0
 	},
 	{
 		"id": 2,
@@ -17,7 +18,8 @@
 		"tags": [
 			"traditional"
 		],
-		"image": "../assets/Americano.png"
+		"image": "../assets/Americano.png",
+		"qty": 0
 	},
 	{
 		"id": 3,
@@ -27,7 +29,8 @@
 		"tags": [
 			"traditional"
 		],
-		"image": "../assets/Expresso Cremoso.png"
+		"image": "../assets/Expresso Cremoso.png",
+		"qty": 0
 	},
 	{
 		"id": 4,
@@ -38,7 +41,8 @@
 			"traditional",
 			"iced"
 		],
-		"image": "../assets/Café Gelado.png"
+		"image": "../assets/Café Gelado.png",
+		"qty": 0
 	},
 	{
 		"id": 5,
@@ -49,7 +53,8 @@
 			"traditional",
 			"with milk"
 		],
-		"image": "../assets/Café com Leite.png"
+		"image": "../assets/Café com Leite.png",
+		"qty": 0
 	},
 	{
 		"id": 6,
@@ -60,7 +65,8 @@
 			"traditional",
 			"with milk"
 		],
-		"image": "../assets/Latte.png"
+		"image": "../assets/Latte.png",
+		"qty": 0
 	},
 	{
 		"id": 7,
@@ -71,7 +77,8 @@
 			"traditional",
 			"with milk"
 		],
-		"image": "../assets/Capuccino.png"
+		"image": "../assets/Capuccino.png",
+		"qty": 0
 	},
 	{
 		"id": 8,
@@ -82,7 +89,8 @@
 			"traditional",
 			"with milk"
 		],
-		"image": "../assets/Macchiato.png"
+		"image": "../assets/Macchiato.png",
+		"qty": 0
 	},
 	{
 		"id": 9,
@@ -93,7 +101,8 @@
 			"traditional",
 			"with milk"
 		],
-		"image": "../assets/Mochaccino.png"
+		"image": "../assets/Mochaccino.png",
+		"qty": 0
 	},
 	{
 		"id": 10,
@@ -104,7 +113,8 @@
 			"special",
 			"with milk"
 		],
-		"image": "../assets/Chocolate Quente.png"
+		"image": "../assets/Chocolate Quente.png",
+		"qty": 0
 	},
 	{
 		"id": 11,
@@ -116,7 +126,8 @@
 			"alcoholic",
 			"iced"
 		],
-		"image": "../assets/Cubano.png"
+		"image": "../assets/Cubano.png",
+		"qty": 0
 	},
 	{
 		"id": 12,
@@ -126,7 +137,8 @@
 		"tags": [
 			"special"
 		],
-		"image": "../assets/Havaiano.png"
+		"image": "../assets/Havaiano.png",
+		"qty": 0
 	},
 	{
 		"id": 13,
@@ -136,7 +148,8 @@
 		"tags": [
 			"special"
 		],
-		"image": "../assets/Árabe.png"
+		"image": "../assets/Árabe.png",
+		"qty": 0
 	},
 	{
 		"id": 14,
@@ -147,6 +160,7 @@
 			"special",
 			"alcoholic"
 		],
-		"image": "../assets/Irlandês.png"
+		"image": "../assets/Irlandês.png",
+		"qty": 0
 	}
 ]
