@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { CatalogueItem } from './CatalogueItem'
 import { CatalogueContainer } from './styles'
 
@@ -10,19 +10,20 @@ interface Coffees {
   tags: []
   image: string
   qty: number
+  onCart: boolean
 }
 
-interface onCartItems {
-  id: string
-  title: string
-  price: number
-  image: string
-  qty: number
-}
+// interface onCartItems {
+//   id: string
+//   title: string
+//   price: number
+//   image: string
+//   qty: number
+// }
 
 export function Catalogue() {
   const [items, setItems] = useState<Coffees[]>([])
-  const [onCartItems, setOnCartItems] = useState<onCartItems[]>([])
+  // const [onCartItems, setOnCartItems] = useState<onCartItems[]>([])
   // state to store the qty value typed by the user
   // const [qty, setQty] = useState(0)
 
@@ -65,11 +66,19 @@ export function Catalogue() {
     )
   }
 
-  // function handleQtyChange(e: ChangeEvent<HTMLInputElement>) {
-  //   setQty(Number(e.target.value))
-  // }
+  function handleSentToCart(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const id = formData.get('id') as string
 
-  function handleSentToCart(id: string) {}
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        String(item.id) === id ? { ...item, onCart: true } : item,
+      ),
+    )
+    const qtyItemsOnCart = () => items.reduce((acc, curr) => acc + curr.qty, 0)
+    // console.log(qtyItemsOnCart())
+  }
 
   useEffect(() => {
     console.log(items)

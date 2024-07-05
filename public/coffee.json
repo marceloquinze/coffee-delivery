@@ -8,7 +8,8 @@
 			"traditional"
 		],
 		"image": "../assets/Expresso.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 2,
@@ -19,7 +20,8 @@
 			"traditional"
 		],
 		"image": "../assets/Americano.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 3,
@@ -30,7 +32,8 @@
 			"traditional"
 		],
 		"image": "../assets/Expresso Cremoso.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 4,
@@ -42,7 +45,8 @@
 			"iced"
 		],
 		"image": "../assets/Café Gelado.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 5,
@@ -54,7 +58,8 @@
 			"with milk"
 		],
 		"image": "../assets/Café com Leite.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 6,
@@ -66,7 +71,8 @@
 			"with milk"
 		],
 		"image": "../assets/Latte.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 7,
@@ -78,7 +84,8 @@
 			"with milk"
 		],
 		"image": "../assets/Capuccino.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 8,
@@ -90,7 +97,8 @@
 			"with milk"
 		],
 		"image": "../assets/Macchiato.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 9,
@@ -102,7 +110,8 @@
 			"with milk"
 		],
 		"image": "../assets/Mochaccino.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 10,
@@ -114,7 +123,8 @@
 			"with milk"
 		],
 		"image": "../assets/Chocolate Quente.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 11,
@@ -127,7 +137,8 @@
 			"iced"
 		],
 		"image": "../assets/Cubano.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 12,
@@ -138,7 +149,8 @@
 			"special"
 		],
 		"image": "../assets/Havaiano.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 13,
@@ -149,7 +161,8 @@
 			"special"
 		],
 		"image": "../assets/Árabe.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	},
 	{
 		"id": 14,
@@ -161,6 +174,7 @@
 			"alcoholic"
 		],
 		"image": "../assets/Irlandês.png",
-		"qty": 0
+		"qty": 0,
+		"onCart": false
 	}
 ]
