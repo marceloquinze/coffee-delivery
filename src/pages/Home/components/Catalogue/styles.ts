@@ -102,10 +102,14 @@ export const CatalogueItemContainer = styled.div`
       font-size: 1rem;
 
       .qty {
-        padding: 0 1rem;
+        padding: 0 0.5rem;
+        border: none;
+        width: 40px;
+        text-align: center;
+        background: transparent;
       }
 
-      button {
+      a {
         background-color: transparent;
         border: none;
         color: ${(props) => props.theme.purple};

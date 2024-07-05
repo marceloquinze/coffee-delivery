@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { CatalogueItem } from './CatalogueItem'
 import { CatalogueContainer } from './styles'
 
@@ -12,8 +12,19 @@ interface Coffees {
   qty: number
 }
 
+interface onCartItems {
+  id: string
+  title: string
+  price: number
+  image: string
+  qty: number
+}
+
 export function Catalogue() {
   const [items, setItems] = useState<Coffees[]>([])
+  const [onCartItems, setOnCartItems] = useState<onCartItems[]>([])
+  // state to store the qty value typed by the user
+  // const [qty, setQty] = useState(0)
 
   useEffect(() => {
     const url = 'coffee.json'
@@ -36,6 +47,33 @@ export function Catalogue() {
       ),
     )
   }
+  function handleDecrement(idToDecrement: string) {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === idToDecrement && item.qty !== 0
+          ? { ...item, qty: item.qty - 1 }
+          : item,
+      ),
+    )
+  }
+
+  function handleQtyChange(id: string, newQty: number) {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, qty: newQty } : item,
+      ),
+    )
+  }
+
+  // function handleQtyChange(e: ChangeEvent<HTMLInputElement>) {
+  //   setQty(Number(e.target.value))
+  // }
+
+  function handleSentToCart(id: string) {}
+
+  useEffect(() => {
+    console.log(items)
+  }, [items])
 
   return (
     <div>
@@ -54,6 +92,11 @@ export function Catalogue() {
                 image={item.image}
                 qty={item.qty}
                 onIncrement={handleIncrement}
+                onDecrement={handleDecrement}
+                onQtyChange={(e) =>
+                  handleQtyChange(item.id, Number(e.target.value))
+                }
+                onSendToCart={handleSentToCart}
               />
             )
           })}

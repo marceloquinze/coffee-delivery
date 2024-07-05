@@ -1,5 +1,6 @@
 import { ShoppingCart } from 'phosphor-react'
 import { CatalogueItemContainer } from './styles'
+import { ChangeEvent } from 'react'
 interface CatalogueItemProps {
   id: string
   title: string
@@ -9,6 +10,9 @@ interface CatalogueItemProps {
   image: string
   qty: number
   onIncrement: (id: string) => void
+  onDecrement: (id: string) => void
+  onQtyChange: (e: ChangeEvent<HTMLInputElement>) => void
+  onSendToCart: (id: string) => void
 }
 
 export function CatalogueItem({
@@ -20,6 +24,9 @@ export function CatalogueItem({
   image,
   qty,
   onIncrement,
+  onDecrement,
+  onQtyChange,
+  onSendToCart,
 }: CatalogueItemProps) {
   return (
     <CatalogueItemContainer>
@@ -35,21 +42,29 @@ export function CatalogueItem({
       </div>
       <h3>{title}</h3>
       <p>{description}</p>
-      <div className="controls">
+      <form className="controls">
         <span className="price">
           $ <b>{price}</b>
         </span>
         <div className="counter">
-          <button className="decrement">-</button>
-          <div className="qty">{qty}</div>
-          <button className="increment" onClick={() => onIncrement(id)}>
+          <a className="decrement" onClick={() => onDecrement(id)}>
+            -
+          </a>
+          <input
+            className="qty"
+            min={0}
+            name="qty"
+            value={qty}
+            onChange={onQtyChange}
+          />
+          <a className="increment" onClick={() => onIncrement(id)}>
             +
-          </button>
+          </a>
         </div>
-        <a className="cart">
+        <button type="submit" className="cart">
           <ShoppingCart weight="fill" size={24} />
-        </a>
-      </div>
+        </button>
+      </form>
     </CatalogueItemContainer>
   )
 }
