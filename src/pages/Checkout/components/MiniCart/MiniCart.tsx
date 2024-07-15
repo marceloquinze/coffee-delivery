@@ -1,31 +1,66 @@
-import { useContext } from 'react'
-import { ItemsContext } from '../../../../contexts/ItemsContext'
-import { MiniCartContainer } from './styles'
+import { ChangeEvent } from 'react'
 
-export function MiniCart() {
-  const { itemsAlreadyOnCart } = useContext(ItemsContext)
+interface Coffees {
+  id: string
+  title: string
+  price: number
+  image: string
+  qty: number
+  onCart: boolean
+}
+interface MiniCartProps {
+  id: string
+  title: string
+  price: number
+  image: string
+  qty: number
+  onIncrement: (id: string) => void
+  onDecrement: (id: string) => void
+  onQtyChange: (e: ChangeEvent<HTMLInputElement>) => void
+  itemsAlreadyInCart: () => Coffees[]
+}
 
-  const itemsInCart = itemsAlreadyOnCart()
-  const total = itemsInCart.reduce(
-    (acc, item) => acc + item.qty * item.price,
-    0,
-  )
+export function MiniCart({
+  id,
+  title,
+  price,
+  image,
+  qty,
+  onIncrement,
+  onDecrement,
+  onQtyChange,
+}: MiniCartProps) {
   return (
-    <MiniCartContainer>
-      <h2>Items in Cart</h2>
-      {itemsInCart.length > 0 ? (
-        <ul>
-          {itemsInCart.map((item) => (
-            <li key={item.id}>
-              {item.title} - Quantity: {item.qty} - Price:{' '}
-              {(item.qty * item.price).toFixed(2)}
-            </li>
-          ))}
-          <li>Total: {total.toFixed(2)}</li>
-        </ul>
-      ) : (
-        <p>No items in cart</p>
-      )}
-    </MiniCartContainer>
+    <div className="item">
+      <div className="first">
+        <img src={`src/assets/${image}`} alt={title} />
+      </div>
+      <div className="second">
+        <div className="title-price">
+          <h3>{title}</h3>
+          <span className="price">
+            $ <b>{price}</b>
+          </span>
+        </div>
+        <form className="controls" /* onSubmit={onSendToCart} */>
+          <div className="counter">
+            <a className="decrement" onClick={() => onDecrement(id)}>
+              -
+            </a>
+            <input
+              className="qty"
+              min={0}
+              name="qty"
+              value={qty}
+              onChange={onQtyChange}
+            />
+            <a className="increment" onClick={() => onIncrement(id)}>
+              +
+            </a>
+          </div>
+          <input type="hidden" name="id" value={id} />
+        </form>
+      </div>
+    </div>
   )
 }
