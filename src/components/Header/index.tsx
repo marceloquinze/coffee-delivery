@@ -6,7 +6,8 @@ import { useContext } from 'react'
 import { ItemsContext } from '../../contexts/ItemsContext'
 
 export function Header() {
-  const { itemsOnCart } = useContext(ItemsContext)
+  const { itemsInCart } = useContext(ItemsContext)
+  const totalItems = itemsInCart.reduce((acc, item) => acc + item.qty, 0)
   return (
     <HeaderContainer>
       <nav>
@@ -22,7 +23,7 @@ export function Header() {
           </NavLink>
           <NavLink to="/checkout" className="cart">
             <ShoppingCart size={24} weight="fill" />
-            {itemsOnCart !== 0 && <span>{itemsOnCart}</span>}
+            {totalItems !== 0 && <span>{totalItems}</span>}
           </NavLink>
         </nav>
       </div>

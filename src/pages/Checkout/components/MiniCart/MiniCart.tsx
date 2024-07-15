@@ -1,13 +1,6 @@
-import { ChangeEvent } from 'react'
+import { Trash } from 'phosphor-react'
+import { ChangeEvent, FormEvent } from 'react'
 
-interface Coffees {
-  id: string
-  title: string
-  price: number
-  image: string
-  qty: number
-  onCart: boolean
-}
 interface MiniCartProps {
   id: string
   title: string
@@ -17,7 +10,7 @@ interface MiniCartProps {
   onIncrement: (id: string) => void
   onDecrement: (id: string) => void
   onQtyChange: (e: ChangeEvent<HTMLInputElement>) => void
-  itemsAlreadyInCart: () => Coffees[]
+  onRemoveFromCart: (e: FormEvent<HTMLFormElement>) => void
 }
 
 export function MiniCart({
@@ -29,6 +22,7 @@ export function MiniCart({
   onIncrement,
   onDecrement,
   onQtyChange,
+  onRemoveFromCart,
 }: MiniCartProps) {
   return (
     <div className="item">
@@ -36,30 +30,33 @@ export function MiniCart({
         <img src={`src/assets/${image}`} alt={title} />
       </div>
       <div className="second">
-        <div className="title-price">
+        <div className="title-form">
           <h3>{title}</h3>
-          <span className="price">
-            $ <b>{price}</b>
-          </span>
+          <form className="controls" onSubmit={onRemoveFromCart}>
+            <div className="counter">
+              <a className="decrement" onClick={() => onDecrement(id)}>
+                -
+              </a>
+              <input
+                className="qty"
+                min={0}
+                name="qty"
+                value={qty}
+                onChange={onQtyChange}
+              />
+              <a className="increment" onClick={() => onIncrement(id)}>
+                +
+              </a>
+            </div>
+            <button type="submit" className="cart" name="remove">
+              <Trash size={20} /> Remove
+            </button>
+            <input type="hidden" name="id" value={id} />
+          </form>
         </div>
-        <form className="controls" /* onSubmit={onSendToCart} */>
-          <div className="counter">
-            <a className="decrement" onClick={() => onDecrement(id)}>
-              -
-            </a>
-            <input
-              className="qty"
-              min={0}
-              name="qty"
-              value={qty}
-              onChange={onQtyChange}
-            />
-            <a className="increment" onClick={() => onIncrement(id)}>
-              +
-            </a>
-          </div>
-          <input type="hidden" name="id" value={id} />
-        </form>
+      </div>
+      <div className="third">
+        <span className="price">$ {price}</span>
       </div>
     </div>
   )

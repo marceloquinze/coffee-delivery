@@ -1,6 +1,6 @@
 import { FormEvent, ReactNode, createContext, useEffect, useState } from 'react'
 
-interface Coffees {
+export interface Coffees {
   id: string
   title: string
   description: string
@@ -13,12 +13,12 @@ interface Coffees {
 
 interface ItemContextType {
   items: Coffees[]
-  itemsOnCart: number // a state used to keep track of items in cart and pass it to Header component.
+  itemsInCart: Coffees[]
   incrementItems: (id: string) => void
   decrementItems: (id: string) => void
   changeQuantity: (id: string, newQty: number) => void
   sendItemsToCart: (e: FormEvent<HTMLFormElement>) => void
-  itemsAlreadyOnCart: () => Coffees[]
+  removeItemsInCart: (e: FormEvent<HTMLFormElement>) => void
 }
 
 export const ItemsContext = createContext({} as ItemContextType)
@@ -28,22 +28,56 @@ interface ItemsContextProviderProps {
 }
 
 export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
-  const [items, setItems] = useState<Coffees[]>([])
-  const [itemsOnCart, setItemsOnCart] = useState(0)
+  const [items, setItems] = useState<Coffees[]>(() => {
+    // initial items are fetched from JSON file, then stored in localStorage, then fetched here
+    const initialItems = localStorage.getItem(
+      '@coffee-delivery:initial-items-1.0.0',
+    )
+    return initialItems ? JSON.parse(initialItems) : []
+  })
+  const [itemsInCart, setItemsInCart] = useState<Coffees[]>(() => {
+    // initial state of the cart
+    const savedCartItems = localStorage.getItem(
+      '@coffee-delivery:itemsInCart-1.0.0',
+    )
+    return savedCartItems ? JSON.parse(savedCartItems) : []
+  })
+
+  // initial data comes from a JSON file
+  useEffect(() => {
+    if (items.length === 0) {
+      const url = 'coffee.json'
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Data not found')
+          }
+          return response.json()
+        })
+        .then((data) => {
+          setItems(data)
+        })
+    }
+  }, [items.length])
 
   useEffect(() => {
-    const url = 'coffee.json'
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Data not found')
-        }
-        return response.json()
-      })
-      .then((data) => {
-        setItems(data)
-      })
-  }, [])
+    // as soon as items are fetched from the JSON file, they'll be added to localStorage
+    localStorage.setItem(
+      '@coffee-delivery:initial-items-1.0.0',
+      JSON.stringify(items),
+    )
+  }, [items])
+
+  useEffect(() => {
+    // as soon as initialItems qty is changed, we create a new storage containing only items w/ qty set
+    // this will be triggered by the sendItemsToCart function below
+    const updatedCartItems = items.filter((item) => item.onCart && item.qty > 0)
+    setItemsInCart(updatedCartItems)
+    localStorage.setItem(
+      '@coffee-delivery:itemsInCart-1.0.0',
+      JSON.stringify(updatedCartItems),
+    )
+  }, [items])
 
   function incrementItems(idToIncrement: string) {
     setItems((prevState) =>
@@ -86,25 +120,20 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
         String(item.id) === id ? { ...item, onCart: true } : item,
       ),
     )
-    // update items in cart number using an accumulator
-    const qtyItemsOnCart = items.reduce((acc, curr) => acc + curr.qty, 0)
-    // update state with items in cart
-    setItemsOnCart(qtyItemsOnCart)
   }
 
-  // what items are already in cart?
-  function itemsAlreadyOnCart() {
-    return items.filter((item) => item.onCart && item.qty > 0)
-  }
+  function removeItemsInCart(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const id = formData.get('id') as string
 
-  function removeItemsInCart() {
-    // to be implemented
-    // also remove when item.qty === 0
+    // update setItemsInCart state passing onCart as false
+    setItems((prevState) =>
+      prevState.map((item) =>
+        String(item.id) === id ? { ...item, onCart: false, qty: 0 } : item,
+      ),
+    )
   }
-
-  // useEffect(() => {
-  //   console.log(itemsOnCart)
-  // }, [itemsOnCart])
 
   return (
     <ItemsContext.Provider
@@ -112,12 +141,12 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
       // you'll find it on App.tsx
       value={{
         items,
-        itemsOnCart,
+        itemsInCart,
         decrementItems,
         incrementItems,
         changeQuantity,
         sendItemsToCart,
-        itemsAlreadyOnCart,
+        removeItemsInCart,
       }}
     >
       {children}
