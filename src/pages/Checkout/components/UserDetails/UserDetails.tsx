@@ -1,7 +1,7 @@
 import { MapPin } from 'phosphor-react'
 import { UserDetailsContainer } from '../../styles'
 import { ChangeEvent } from 'react'
-import { UserDetails } from '../../../../contexts/ItemsContext'
+import { UserDetails } from '../../../../contexts/UserContext'
 
 interface UserDetailsProps {
   getUserDetails: (

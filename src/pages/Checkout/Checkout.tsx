@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { MiniCart } from './components/MiniCart/MiniCart'
 import { CheckoutContainer, MiniCartContainer } from './styles'
 import { ItemsContext } from '../../contexts/ItemsContext'
+import { UserContext } from '../../contexts/UserContext'
 import { Summary } from './components/MiniCart/Summary'
 import { Payment } from './components/Payment/Payment'
 import { UserDetailsComp } from './components/UserDetails/UserDetails'
@@ -13,6 +14,9 @@ export function Checkout() {
     incrementItems,
     itemsInCart,
     removeItemsInCart,
+  } = useContext(ItemsContext)
+
+  const {
     togglePayment,
     payment,
     getUserDetails,
@@ -20,7 +24,7 @@ export function Checkout() {
     createOrder,
     validationMsg,
     invalidFields,
-  } = useContext(ItemsContext)
+  } = useContext(UserContext)
 
   const inCart = itemsInCart
 

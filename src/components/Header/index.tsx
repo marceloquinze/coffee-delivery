@@ -4,9 +4,11 @@ import { HeaderContainer } from './styles'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { useContext } from 'react'
 import { ItemsContext } from '../../contexts/ItemsContext'
+import { UserContext } from '../../contexts/UserContext'
 
 export function Header() {
-  const { itemsInCart, userDetails } = useContext(ItemsContext)
+  const { itemsInCart } = useContext(ItemsContext)
+  const { userDetails } = useContext(UserContext)
   const totalItems = itemsInCart.reduce((acc, item) => acc + item.qty, 0)
   return (
     <HeaderContainer>
