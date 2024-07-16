@@ -2,6 +2,8 @@ import { useContext } from 'react'
 import { MiniCart } from './components/MiniCart/MiniCart'
 import { CheckoutContainer, MiniCartContainer } from './styles'
 import { ItemsContext } from '../../contexts/ItemsContext'
+import { Summary } from './components/MiniCart/Summary'
+import { Payment } from './components/Payment/Payment'
 
 export function Checkout() {
   const {
@@ -10,13 +12,11 @@ export function Checkout() {
     incrementItems,
     itemsInCart,
     removeItemsInCart,
+    togglePayment,
+    payment,
   } = useContext(ItemsContext)
 
   const inCart = itemsInCart
-  const total = itemsInCart.reduce(
-    (acc, item) => acc + item.qty * item.price,
-    0,
-  )
 
   return (
     <CheckoutContainer>
@@ -24,9 +24,7 @@ export function Checkout() {
         <div>
           <h2>Complete your order</h2>
         </div>
-        <div>
-          <h2>Payment</h2>
-        </div>
+        <Payment togglePayment={togglePayment} payment={payment} />
       </section>
       <section>
         <h2>Selected coffees</h2>
@@ -53,23 +51,7 @@ export function Checkout() {
                   )
                 })}
               </div>
-              <div className="summary">
-                <div className="total">
-                  <p>
-                    Itens Total: <span>$ {total.toFixed(2)}</span>
-                  </p>
-                </div>
-                <div className="delivery">
-                  <p>
-                    Delivery: <span>$ 3.00</span>
-                  </p>
-                </div>
-                <div className="grandTotal">
-                  <p>
-                    Total: <span>$ {(total + 3).toFixed(2)}</span>
-                  </p>
-                </div>
-              </div>
+              <Summary itemsInCart={inCart} />
               <div className="confirm">
                 <button type="submit">Confirm order</button>
               </div>

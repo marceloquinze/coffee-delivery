@@ -139,3 +139,51 @@ export const MiniCartContainer = styled.aside`
     }
   }
 `
+export const PaymentContainer = styled.div`
+  background: ${(props) => props.theme['base-card']};
+  padding: 2.5rem;
+  border-radius: 6px;
+
+  h4 {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0 0 0.5rem 0;
+
+    svg {
+      color: ${(props) => props.theme.purple};
+    }
+  }
+  .buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 2rem;
+
+    button {
+      width: 100%;
+      background: ${(props) => props.theme['base-button']};
+      border: none;
+      color: ${(props) => props.theme['base-text']};
+      padding: 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      svg {
+        color: ${(props) => props.theme.purple};
+        margin-right: 0.5rem;
+      }
+    }
+    .selected {
+      border: 1px solid ${(props) => props.theme.purple};
+      background-color: ${(props) => props.theme['purple-light']};
+      outline: none;
+    }
+  }
+`

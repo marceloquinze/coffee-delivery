@@ -14,11 +14,16 @@ export interface Coffees {
 interface ItemContextType {
   items: Coffees[]
   itemsInCart: Coffees[]
+  payment: string
   incrementItems: (id: string) => void
   decrementItems: (id: string) => void
   changeQuantity: (id: string, newQty: number) => void
   sendItemsToCart: (e: FormEvent<HTMLFormElement>) => void
   removeItemsInCart: (e: FormEvent<HTMLFormElement>) => void
+  togglePayment: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    paymentType: string,
+  ) => void
 }
 
 export const ItemsContext = createContext({} as ItemContextType)
@@ -28,6 +33,7 @@ interface ItemsContextProviderProps {
 }
 
 export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
+  // ------ STATES ------
   const [items, setItems] = useState<Coffees[]>(() => {
     // initial items are fetched from JSON file, then stored in localStorage, then fetched here
     const initialItems = localStorage.getItem(
@@ -43,7 +49,14 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     return savedCartItems ? JSON.parse(savedCartItems) : []
   })
 
-  // initial data comes from a JSON file
+  const [payment, setPayment] = useState<string>(() => {
+    const savedPayment = localStorage.getItem('@coffee-delivery:payment-1.0.0')
+    return savedPayment ? JSON.parse(savedPayment) : ''
+  })
+
+  // ------ EFFECTS ------
+
+  // 1. the initial data comes from a JSON file
   useEffect(() => {
     if (items.length === 0) {
       const url = 'coffee.json'
@@ -60,6 +73,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     }
   }, [items.length])
 
+  // 2. initial data is stored in localStorage
   useEffect(() => {
     // as soon as items are fetched from the JSON file, they'll be added to localStorage
     localStorage.setItem(
@@ -68,6 +82,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }, [items])
 
+  // 3. cart items are stored in localStorage
   useEffect(() => {
     // as soon as initialItems qty is changed, we create a new storage containing only items w/ qty set
     // this will be triggered by the sendItemsToCart function below
@@ -79,6 +94,26 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }, [items])
 
+  // 4. set payment
+  useEffect(() => {
+    localStorage.setItem(
+      '@coffee-delivery:payment-1.0.0',
+      JSON.stringify(payment),
+    )
+  }, [payment])
+
+  // ------ FUNCTIONS ------
+
+  // 1. toggle payment
+  function togglePayment(
+    e: React.MouseEvent<HTMLButtonElement>,
+    paymentType: string,
+  ) {
+    e.preventDefault()
+    setPayment(paymentType)
+  }
+
+  // 2. increment and decrement
   function incrementItems(idToIncrement: string) {
     setItems((prevState) =>
       prevState.map((item) =>
@@ -96,6 +131,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
+  // 3. change quantity
   // this will be triggered whenever the qty input changes,
   // whether it is via +/- buttons or direct typing a value
   // this can help make this a controlled input
@@ -107,6 +143,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
+  // 4. send items to cart
   // this will be triggered once we click on the cart button (onSendToCart)
   // via form event
   function sendItemsToCart(e: FormEvent<HTMLFormElement>) {
@@ -122,6 +159,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
+  // 5. remove items from cart
   function removeItemsInCart(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
@@ -135,6 +173,9 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
+  // 6. clear cart
+
+  // ------ RETURN ------
   return (
     <ItemsContext.Provider
       // this goes around every element that needs values coming from this context
@@ -147,6 +188,8 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
         changeQuantity,
         sendItemsToCart,
         removeItemsInCart,
+        togglePayment,
+        payment,
       }}
     >
       {children}
