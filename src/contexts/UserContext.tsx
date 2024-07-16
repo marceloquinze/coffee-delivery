@@ -7,6 +7,7 @@ import {
   useState,
   useContext,
 } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { ItemsContext } from './ItemsContext'
 
@@ -18,6 +19,18 @@ export interface UserDetails {
   neighborhood: string
   city: string
   uf: string
+}
+
+interface UserDetailsProps {
+  street: string
+  number: string
+  neighborhood: string
+  city: string
+  uf: string
+}
+interface Order {
+  userAddress: UserDetailsProps
+  payment: string
 }
 
 interface UserContextType {
@@ -40,6 +53,8 @@ interface UserContextProviderProps {
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const { itemsInCart, clearCart } = useContext(ItemsContext)
+  const navigate = useNavigate()
+
   // ------ STATES ------
   const [payment, setPayment] = useState<string>(() => {
     const savedPayment = localStorage.getItem('@coffee-delivery:payment-1.0.0')
@@ -57,6 +72,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const [invalidFields, setInvalidFields] = useState<{
     [key: string]: boolean
   }>({})
+
+  const [order, setOrder] = useState<Order>({})
 
   // ------ EFFECTS ------
   // 4. set payment
@@ -164,19 +181,30 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       setValidationMsg([])
       setInvalidFields({})
 
-      // clear cart
-      clearCart()
+      const { street, number, neighborhood, city, uf } = userDetails
 
       // create order
-      console.log('creating order')
-      console.log({ ...userDetails, payment })
-      console.log({ itemsInCart })
+      setOrder({
+        userAddress: { street, number, neighborhood, city, uf },
+        payment,
+      })
+
+      // clear cart
+      // clearCart()
+
+      // create order
+      //   console.log('creating order')
+      //   console.log({ ...userDetails, payment })
+      //   console.log({ itemsInCart })
+
+      // redirect
+      navigate('/success')
     }
   }
 
   useEffect(() => {
-    console.log(invalidFields)
-  }, [invalidFields])
+    console.log(order)
+  }, [order])
 
   // ------ RETURN ------
   return (
