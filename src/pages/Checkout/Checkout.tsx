@@ -4,6 +4,7 @@ import { CheckoutContainer, MiniCartContainer } from './styles'
 import { ItemsContext } from '../../contexts/ItemsContext'
 import { Summary } from './components/MiniCart/Summary'
 import { Payment } from './components/Payment/Payment'
+import { UserDetailsComp } from './components/UserDetails/UserDetails'
 
 export function Checkout() {
   const {
@@ -14,6 +15,11 @@ export function Checkout() {
     removeItemsInCart,
     togglePayment,
     payment,
+    getUserDetails,
+    userDetails,
+    createOrder,
+    validationMsg,
+    invalidFields,
   } = useContext(ItemsContext)
 
   const inCart = itemsInCart
@@ -21,12 +27,19 @@ export function Checkout() {
   return (
     <CheckoutContainer>
       <section>
-        <div>
-          <h2>Complete your order</h2>
-        </div>
-        <Payment togglePayment={togglePayment} payment={payment} />
+        <h2>Complete your order</h2>
+        <UserDetailsComp
+          getUserDetails={getUserDetails}
+          userDetails={userDetails}
+          invalidFields={invalidFields}
+        />
+        <Payment
+          togglePayment={togglePayment}
+          payment={payment}
+          invalidFields={invalidFields}
+        />
       </section>
-      <section>
+      <aside>
         <h2>Selected coffees</h2>
         <MiniCartContainer>
           {inCart.length > 0 ? (
@@ -53,14 +66,18 @@ export function Checkout() {
               </div>
               <Summary itemsInCart={inCart} />
               <div className="confirm">
-                <button type="submit">Confirm order</button>
+                <button onClick={createOrder} type="submit">
+                  Confirm order
+                </button>
+                {validationMsg &&
+                  validationMsg.map((msg) => <p key={msg}>{msg}</p>)}
               </div>
             </>
           ) : (
             <p>No items in your cart.</p>
           )}
         </MiniCartContainer>
-      </section>
+      </aside>
     </CheckoutContainer>
   )
 }

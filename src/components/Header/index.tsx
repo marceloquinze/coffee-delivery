@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { ItemsContext } from '../../contexts/ItemsContext'
 
 export function Header() {
-  const { itemsInCart } = useContext(ItemsContext)
+  const { itemsInCart, userDetails } = useContext(ItemsContext)
   const totalItems = itemsInCart.reduce((acc, item) => acc + item.qty, 0)
   return (
     <HeaderContainer>
@@ -19,7 +19,7 @@ export function Header() {
         <nav>
           <NavLink to="/checkout" className="location">
             <MapPin size={24} weight="fill" />
-            Porto Alegre, RS
+            {userDetails.city}, {userDetails.uf}
           </NavLink>
           <NavLink to="/checkout" className="cart">
             <ShoppingCart size={24} weight="fill" />

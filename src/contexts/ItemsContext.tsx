@@ -1,4 +1,12 @@
-import { FormEvent, ReactNode, createContext, useEffect, useState } from 'react'
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  ReactNode,
+  createContext,
+  useEffect,
+  useState,
+} from 'react'
 
 export interface Coffees {
   id: string
@@ -11,19 +19,31 @@ export interface Coffees {
   onCart: boolean
 }
 
+export interface UserDetails {
+  cep: string
+  street: string
+  number: string
+  complement: string
+  neighborhood: string
+  city: string
+  uf: string
+}
+
 interface ItemContextType {
   items: Coffees[]
   itemsInCart: Coffees[]
   payment: string
+  userDetails: UserDetails
+  validationMsg: string[]
+  invalidFields: { [key: string]: boolean }
   incrementItems: (id: string) => void
   decrementItems: (id: string) => void
   changeQuantity: (id: string, newQty: number) => void
   sendItemsToCart: (e: FormEvent<HTMLFormElement>) => void
   removeItemsInCart: (e: FormEvent<HTMLFormElement>) => void
-  togglePayment: (
-    e: React.MouseEvent<HTMLButtonElement>,
-    paymentType: string,
-  ) => void
+  togglePayment: (e: MouseEvent<HTMLButtonElement>, paymentType: string) => void
+  getUserDetails: (e: ChangeEvent<HTMLInputElement>) => void
+  createOrder: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
 export const ItemsContext = createContext({} as ItemContextType)
@@ -53,6 +73,18 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     const savedPayment = localStorage.getItem('@coffee-delivery:payment-1.0.0')
     return savedPayment ? JSON.parse(savedPayment) : ''
   })
+
+  const [userDetails, setUserDetails] = useState<UserDetails>(() => {
+    const savedUserDetails = localStorage.getItem(
+      '@coffee-delivery:userDetails-1.0.0',
+    )
+    return savedUserDetails ? JSON.parse(savedUserDetails) : {}
+  })
+
+  const [validationMsg, setValidationMsg] = useState<string[]>([])
+  const [invalidFields, setInvalidFields] = useState<{
+    [key: string]: boolean
+  }>({})
 
   // ------ EFFECTS ------
 
@@ -101,6 +133,14 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
       JSON.stringify(payment),
     )
   }, [payment])
+
+  // 5. set user details
+  useEffect(() => {
+    localStorage.setItem(
+      '@coffee-delivery:userDetails-1.0.0',
+      JSON.stringify(userDetails),
+    )
+  }, [userDetails])
 
   // ------ FUNCTIONS ------
 
@@ -175,6 +215,89 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
 
   // 6. clear cart
 
+  // 7. get user details
+  function getUserDetails(e: ChangeEvent<HTMLInputElement>) {
+    // console.log(e.target.value)
+    setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
+  }
+
+  interface Validation {
+    valid: boolean
+    msgs: string[]
+    fields: { [key: string]: boolean }
+  }
+
+  // 8a. validate order
+  function validateOrder(): Validation {
+    const messages: string[] = []
+    const fields: { [key: string]: boolean } = {}
+
+    if (!userDetails.cep) {
+      messages.push('Please fill in the CEP field')
+      fields.cep = true
+    } else if (!userDetails.cep.match(/^[0-9]{5}-[0-9]{3}$/)) {
+      messages.push('Invalid CEP')
+      fields.cep = true
+    }
+
+    if (!userDetails.street) {
+      messages.push('Please fill in the street field')
+      fields.street = true
+    }
+
+    if (!userDetails.number) {
+      messages.push('Please fill in the number field')
+      fields.number = true
+    } else if (!userDetails.number.match(/^\d+$/)) {
+      messages.push('Invalid number')
+      fields.number = true
+    }
+
+    if (!userDetails.neighborhood) {
+      messages.push('Please fill in the neighborhood field')
+      fields.neighborhood = true
+    }
+
+    if (!userDetails.city) {
+      messages.push('Please fill in the city field')
+      fields.city = true
+    }
+
+    if (!userDetails.uf) {
+      messages.push('Please fill in the UF field')
+      fields.uf = true
+    }
+
+    if (!payment) {
+      messages.push('Please select a payment method')
+      fields.payment = true
+    }
+
+    if (!itemsInCart.length) {
+      messages.push('Cart is empty')
+    }
+
+    return { valid: messages.length === 0, msgs: messages, fields }
+  }
+
+  // 8. create order
+  function createOrder(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    const validation = validateOrder()
+    if (!validation.valid) {
+      setValidationMsg(validation.msgs)
+      setInvalidFields(validation.fields)
+    } else {
+      setValidationMsg([])
+      setInvalidFields({})
+      alert('Order created!')
+    }
+  }
+
+  useEffect(() => {
+    console.log(invalidFields)
+  }, [invalidFields])
+
   // ------ RETURN ------
   return (
     <ItemsContext.Provider
@@ -190,6 +313,11 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
         removeItemsInCart,
         togglePayment,
         payment,
+        getUserDetails,
+        userDetails,
+        createOrder,
+        validationMsg,
+        invalidFields,
       }}
     >
       {children}

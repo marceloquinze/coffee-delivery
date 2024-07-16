@@ -12,8 +12,13 @@ export const CheckoutContainer = styled.main`
     padding-bottom: 1rem;
     font-family: 'Baloo 2', sans-serif;
   }
+
+  .confirm p {
+    padding-top: 1rem;
+    color: ${(props) => props.theme.danger};
+  }
 `
-export const MiniCartContainer = styled.aside`
+export const MiniCartContainer = styled.div`
   background: ${(props) => props.theme['base-card']};
   padding: 2.5rem;
   border-radius: 28px;
@@ -139,10 +144,12 @@ export const MiniCartContainer = styled.aside`
     }
   }
 `
-export const PaymentContainer = styled.div`
+
+export const UserDetailsContainer = styled.div`
   background: ${(props) => props.theme['base-card']};
   padding: 2.5rem;
   border-radius: 6px;
+  margin-bottom: 1rem;
 
   h4 {
     display: flex;
@@ -150,6 +157,74 @@ export const PaymentContainer = styled.div`
     font-size: 1rem;
     font-weight: normal;
     margin: 0 0 0.5rem 0;
+    gap: 0.5rem;
+
+    svg {
+      color: ${(props) => props.theme['yellow-dark']};
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+
+    fieldset {
+      border: none;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input {
+      background: ${(props) => props.theme['base-input']};
+      border: none;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+    .input-error {
+      border: 2px solid ${(props) => props.theme.danger};
+    }
+  }
+
+  .cep {
+    width: 33%;
+  }
+  .street,
+  .complement {
+    flex: 1;
+  }
+  .fieldset2 .item {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+  .city {
+    flex-grow: 2 !important;
+  }
+  .uf {
+    flex-shrink: 2 !important;
+  }
+`
+
+export const PaymentContainer = styled.div`
+  background: ${(props) => props.theme['base-card']};
+  padding: 2.5rem;
+  border-radius: 6px;
+
+  .input-error {
+    border: 2px solid ${(props) => props.theme.danger};
+  }
+
+  h4 {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0 0 0.5rem 0;
+    gap: 0.5rem;
 
     svg {
       color: ${(props) => props.theme.purple};
