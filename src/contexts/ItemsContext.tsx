@@ -42,7 +42,9 @@ interface ItemContextType {
   sendItemsToCart: (e: FormEvent<HTMLFormElement>) => void
   removeItemsInCart: (e: FormEvent<HTMLFormElement>) => void
   togglePayment: (e: MouseEvent<HTMLButtonElement>, paymentType: string) => void
-  getUserDetails: (e: ChangeEvent<HTMLInputElement>) => void
+  getUserDetails: (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
+  ) => void
   createOrder: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
@@ -214,9 +216,15 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
   }
 
   // 6. clear cart
-
+  function clearCart() {
+    setItems((prevState) =>
+      prevState.map((item) => ({ ...item, onCart: false, qty: 0 })),
+    )
+  }
   // 7. get user details
-  function getUserDetails(e: ChangeEvent<HTMLInputElement>) {
+  function getUserDetails(
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
+  ) {
     // console.log(e.target.value)
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
   }
@@ -248,7 +256,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     if (!userDetails.number) {
       messages.push('Please fill in the number field')
       fields.number = true
-    } else if (!userDetails.number.match(/^\d+$/)) {
+    } else if (!userDetails.number.match(/^[1-9]\d*$/)) {
       messages.push('Invalid number')
       fields.number = true
     }
@@ -290,7 +298,14 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     } else {
       setValidationMsg([])
       setInvalidFields({})
-      alert('Order created!')
+
+      // clear cart
+      // clearCart()
+
+      // create order
+      console.log('creating order')
+      console.log({ ...userDetails, payment })
+      console.log({ itemsInCart })
     }
   }
 

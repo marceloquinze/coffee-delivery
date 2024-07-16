@@ -184,6 +184,15 @@ export const UserDetailsContainer = styled.div`
       border-radius: 4px;
       font-size: 0.875rem;
     }
+
+    select {
+      background: ${(props) => props.theme['base-input']};
+      border: none;
+      padding: 0.75rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
     .input-error {
       border: 2px solid ${(props) => props.theme.danger};
     }
