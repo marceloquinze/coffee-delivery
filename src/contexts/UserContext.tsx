@@ -76,10 +76,13 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     [key: string]: boolean
   }>({})
 
-  const [order, setOrder] = useState<Order>({})
+  const [order, setOrder] = useState<Order>(() => {
+    const savedOrder = localStorage.getItem('@coffee-delivery:order-1.0.0')
+    return savedOrder ? JSON.parse(savedOrder) : {}
+  })
 
   // ------ EFFECTS ------
-  // 4. set payment
+  // 1. set payment
   useEffect(() => {
     localStorage.setItem(
       '@coffee-delivery:payment-1.0.0',
@@ -87,13 +90,18 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     )
   }, [payment])
 
-  // 5. set user details
+  // 2. set user details
   useEffect(() => {
     localStorage.setItem(
       '@coffee-delivery:userDetails-1.0.0',
       JSON.stringify(userDetails),
     )
   }, [userDetails])
+
+  // 3. set order
+  useEffect(() => {
+    localStorage.setItem('@coffee-delivery:order-1.0.0', JSON.stringify(order))
+  }, [order])
 
   // ------ FUNCTIONS ------
 
@@ -195,11 +203,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
       // clear cart
       // clearCart()
-
-      // create order
-      //   console.log('creating order')
-      //   console.log({ ...userDetails, payment })
-      //   console.log({ itemsInCart })
 
       // redirect
       navigate('/success')
