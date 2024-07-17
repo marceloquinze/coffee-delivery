@@ -8,6 +8,7 @@ import {
   useContext,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 import { ItemsContext } from './ItemsContext'
 
@@ -28,7 +29,8 @@ interface UserDetailsProps {
   city: string
   uf: string
 }
-interface Order {
+export interface Order {
+  id: string
   userAddress: UserDetailsProps
   payment: string
 }
@@ -38,6 +40,7 @@ interface UserContextType {
   userDetails: UserDetails
   validationMsg: string[]
   invalidFields: { [key: string]: boolean }
+  order: Order
   togglePayment: (e: MouseEvent<HTMLButtonElement>, paymentType: string) => void
   getUserDetails: (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
@@ -185,6 +188,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
       // create order
       setOrder({
+        id: uuidv4().toString().substring(0, 8),
         userAddress: { street, number, neighborhood, city, uf },
         payment,
       })
@@ -219,6 +223,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         createOrder,
         validationMsg,
         invalidFields,
+        order,
       }}
     >
       {children}
