@@ -41,6 +41,7 @@ interface UserContextType {
   validationMsg: string[]
   invalidFields: { [key: string]: boolean }
   order: Order
+  orderHistory: Order[]
   togglePayment: (e: MouseEvent<HTMLButtonElement>, paymentType: string) => void
   getUserDetails: (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
@@ -81,6 +82,13 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     return savedOrder ? JSON.parse(savedOrder) : {}
   })
 
+  const [orderHistory, setOrderHistory] = useState<Order[]>(() => {
+    const savedOrderHistory = localStorage.getItem(
+      '@coffee-delivery:orderHistory-1.0.0',
+    )
+    return savedOrderHistory ? JSON.parse(savedOrderHistory) : []
+  })
+
   // ------ EFFECTS ------
   // 1. set payment
   useEffect(() => {
@@ -102,6 +110,14 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   useEffect(() => {
     localStorage.setItem('@coffee-delivery:order-1.0.0', JSON.stringify(order))
   }, [order])
+
+  // 4. set order history
+  useEffect(() => {
+    localStorage.setItem(
+      '@coffee-delivery:orderHistory-1.0.0',
+      JSON.stringify(orderHistory),
+    )
+  }, [orderHistory])
 
   // ------ FUNCTIONS ------
 
@@ -194,12 +210,18 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
       const { street, number, neighborhood, city, uf } = userDetails
 
-      // create order
-      setOrder({
+      // create new order
+      const newOrder: Order = {
         id: uuidv4().toString().substring(0, 8),
         userAddress: { street, number, neighborhood, city, uf },
         payment,
-      })
+      }
+
+      // update order state
+      setOrder(newOrder)
+
+      // update order history state
+      setOrderHistory((prevOrderHistory) => [...prevOrderHistory, newOrder])
 
       // clear cart
       // clearCart()
@@ -227,6 +249,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         validationMsg,
         invalidFields,
         order,
+        orderHistory,
       }}
     >
       {children}
