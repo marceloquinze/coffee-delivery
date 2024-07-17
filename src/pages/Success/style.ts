@@ -5,7 +5,7 @@ export const SuccessContainer = styled.main`
   margin: 0 auto;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: space-between;
 
   h1 {
     font-family: 'Baloo 2', sans-serif;
@@ -39,9 +39,14 @@ export const OrderSummaryContainer = styled.div`
     gap: 0.5rem;
   }
 
-  .number {
+  .items {
     svg {
       background: ${(props) => props.theme['purple-dark']};
+    }
+    ul {
+      list-style: circle;
+      margin-left: 1rem;
+      font-style: italic;
     }
   }
   .address {

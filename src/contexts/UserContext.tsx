@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
-import { ItemsContext } from './ItemsContext'
+import { ItemsContext, Coffees } from './ItemsContext'
 
 export interface UserDetails {
   cep: string
@@ -33,6 +33,9 @@ export interface Order {
   id: string
   userAddress: UserDetailsProps
   payment: string
+  itemsInCart: Coffees[]
+  total: number
+  date: Date
 }
 
 interface UserContextType {
@@ -215,6 +218,11 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         id: uuidv4().toString().substring(0, 8),
         userAddress: { street, number, neighborhood, city, uf },
         payment,
+        itemsInCart,
+        total: itemsInCart.reduce((acc, item) => {
+          return acc + item.price * item.qty
+        }, 0),
+        date: new Date(),
       }
 
       // update order state
@@ -224,16 +232,16 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       setOrderHistory((prevOrderHistory) => [...prevOrderHistory, newOrder])
 
       // clear cart
-      // clearCart()
+      clearCart()
 
       // redirect
       navigate('/success')
     }
   }
 
-  useEffect(() => {
-    console.log(order)
-  }, [order])
+  // useEffect(() => {
+  //   console.log(order)
+  // }, [order])
 
   // ------ RETURN ------
   return (

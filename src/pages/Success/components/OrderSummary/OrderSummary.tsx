@@ -9,11 +9,18 @@ interface OrderSummaryProps {
 export function OrderSummary({ order }: OrderSummaryProps) {
   return (
     <OrderSummaryContainer>
-      <div className="number">
+      <div className="items">
         <Package size={22} weight="fill" />
         <div>
-          Order number: <br />
-          {order.id}
+          Order number: <strong>{order.id}</strong>
+          <br />
+          <ul>
+            {order.itemsInCart.map((item) => (
+              <li key={item.id}>
+                {item.qty} {item.title}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="address">
@@ -37,8 +44,10 @@ export function OrderSummary({ order }: OrderSummaryProps) {
       <div className="payment">
         <CurrencyDollar size={22} weight="fill" />
         <div>
-          Payment type: <br />
-          <strong>{order.payment}</strong>
+          Payment details: <br />
+          <strong>
+            ${order.total.toFixed(2)} payed in {order.payment}
+          </strong>
         </div>
       </div>
     </OrderSummaryContainer>
