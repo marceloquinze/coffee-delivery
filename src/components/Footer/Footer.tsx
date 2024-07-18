@@ -4,7 +4,7 @@ import { ShoppingCart, User } from 'phosphor-react'
 
 export function Footer() {
   return (
-    <FooterContainer>
+    <FooterContainer className="footer-container">
       <div className="wrapper">
         <p>© {new Date().getFullYear()} Coffee Delivery</p>
         <div className="user-items">

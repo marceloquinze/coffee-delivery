@@ -8,20 +8,24 @@ export const GlobalStyle = createGlobalStyle`
 		line-height: 1.3;
 	}
 
-	:focus{
-		outline: 1px solid ${(props) => props.theme['yellow-dark']};
-	}
-
 	body{
 		background: ${(props) => props.theme.background};
 		color: ${(props) => props.theme['base-text']};
 		-webkit-font-smoothing: antialiased;
-
 	}
 
 	body, input, textarea, button {
 		font-family: 'Roboto', sans-serif;
 		font-weight: 400;
-		font-size: 1rem;
+		font-size: clamp(0.875rem, 1.5vw, 1rem);
+	}
+
+	main{
+		min-height: calc(100vh - 187px);
+	}
+
+	img{
+		max-width: 100%;
+		height: auto;
 	}
 `

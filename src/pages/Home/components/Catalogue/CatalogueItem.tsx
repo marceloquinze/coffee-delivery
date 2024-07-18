@@ -29,7 +29,7 @@ export function CatalogueItem({
   onSendToCart,
 }: CatalogueItemProps) {
   return (
-    <CatalogueItemContainer>
+    <CatalogueItemContainer className="catalogue-item">
       <img src={`src/assets/${image}`} alt={title} />
       <div className="tags">
         {tags.map((item, index) => {

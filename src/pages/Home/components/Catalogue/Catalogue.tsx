@@ -13,8 +13,8 @@ export function Catalogue() {
   } = useContext(ItemsContext)
 
   return (
-    <div>
-      <CatalogueContainer>
+    <>
+      <CatalogueContainer className="catalogue">
         <h2>Our coffees</h2>
         <div className="items">
           {items.map((item) => {
@@ -39,6 +39,6 @@ export function Catalogue() {
           })}
         </div>
       </CatalogueContainer>
-    </div>
+    </>
   )
 }

@@ -16,7 +16,7 @@ export function Payment({
   invalidFields,
 }: PaymentProps) {
   return (
-    <PaymentContainer>
+    <PaymentContainer className="payment-container">
       <div className={invalidFields.payment ? 'input-error' : ''}>
         <h4>
           <CurrencyDollar size={22} />

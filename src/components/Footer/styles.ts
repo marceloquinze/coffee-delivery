@@ -6,7 +6,7 @@ export const FooterContainer = styled.footer`
   .wrapper {
     max-width: 70rem;
     margin: 0 auto;
-    padding: 1.5rem 0;
+    padding: 1.5rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

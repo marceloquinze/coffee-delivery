@@ -8,7 +8,7 @@ interface OrderSummaryProps {
 
 export function OrderSummary({ order }: OrderSummaryProps) {
   return (
-    <OrderSummaryContainer>
+    <OrderSummaryContainer className="order-summary">
       <div className="items">
         <Package size={22} weight="fill" />
         <div>

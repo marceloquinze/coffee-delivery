@@ -6,6 +6,16 @@ export const SuccessContainer = styled.main`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  padding: 2rem;
+
+  @media (width < 768px) {
+    flex-direction: column;
+    row-gap: 2rem;
+
+    & > div {
+      width: 100%;
+    }
+  }
 
   h1 {
     font-family: 'Baloo 2', sans-serif;

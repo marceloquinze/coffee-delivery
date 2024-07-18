@@ -9,7 +9,7 @@ export function Header() {
   const { itemsInCart } = useContext(ItemsContext)
   const totalItems = itemsInCart.reduce((acc, item) => acc + item.qty, 0)
   return (
-    <HeaderContainer>
+    <HeaderContainer className="header-container">
       <nav>
         <NavLink to="/">
           <img src={siteLogo} alt="" />

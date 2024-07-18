@@ -8,7 +8,7 @@ export function User() {
   const { getUserDetails, userDetails, invalidFields, orderHistory } =
     useContext(UserContext)
   return (
-    <UserContainer>
+    <UserContainer className="user-container">
       <div className="tabs">
         <input type="radio" name="tabs" id="address" defaultChecked />
         <label htmlFor="address">Address</label>

@@ -6,7 +6,11 @@ export const CheckoutContainer = styled.main`
   display: grid;
   grid-template-columns: 1fr 448px;
   gap: 1.5rem;
-  padding: 2rem 0;
+  padding: 2rem;
+
+  @media (width < 1025px) {
+    grid-template-columns: 1fr;
+  }
 
   h2 {
     font-size: 1.125rem;
@@ -59,6 +63,10 @@ export const MiniCartContainer = styled.div`
       transition: 0.5s all;
       text-transform: uppercase;
       margin-top: 1.5rem;
+
+      &:hover {
+        background: ${(props) => props.theme['yellow-dark']};
+      }
     }
   }
 
@@ -68,6 +76,10 @@ export const MiniCartContainer = styled.div`
     img {
       width: 64px;
       height: 64px;
+
+      @media (width < 600px) {
+        display: none;
+      }
     }
     .item {
       display: flex;
@@ -102,6 +114,11 @@ export const MiniCartContainer = styled.div`
             cursor: pointer;
             border-radius: 8px;
             padding: 0.5rem;
+            transition: 0.5s all;
+
+            &:hover {
+              background-color: ${(props) => props.theme['base-hover']};
+            }
 
             svg {
               color: ${(props) => props.theme.purple};
@@ -172,6 +189,19 @@ export const UserDetailsContainer = styled.div`
     flex-wrap: wrap;
     margin-top: 2rem;
 
+    @media (width < 600px) {
+      flex-direction: row;
+
+      fieldset {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+
     fieldset {
       border: none;
       display: flex;
@@ -184,6 +214,12 @@ export const UserDetailsContainer = styled.div`
       padding: 0.75rem;
       border-radius: 4px;
       font-size: 0.875rem;
+
+      &:active,
+      &:focus-visible,
+      &:focus {
+        outline: ${(props) => props.theme['yellow-dark']} auto 1px;
+      }
     }
 
     select {
@@ -192,6 +228,12 @@ export const UserDetailsContainer = styled.div`
       padding: 0.75rem;
       border-radius: 4px;
       font-size: 0.875rem;
+
+      &:active,
+      &:focus-visible,
+      &:focus {
+        outline: ${(props) => props.theme['yellow-dark']} auto 1px;
+      }
     }
 
     .input-error {
@@ -245,6 +287,10 @@ export const PaymentContainer = styled.div`
     gap: 0.5rem;
     margin-top: 2rem;
 
+    @media (width < 600px) {
+      flex-direction: column;
+    }
+
     button {
       width: 100%;
       background: ${(props) => props.theme['base-button']};
@@ -259,6 +305,11 @@ export const PaymentContainer = styled.div`
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      transition: 0.5s all;
+
+      &:hover {
+        background: ${(props) => props.theme['base-hover']};
+      }
 
       svg {
         color: ${(props) => props.theme.purple};

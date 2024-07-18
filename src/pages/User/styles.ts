@@ -6,6 +6,11 @@ export const UserContainer = styled.main`
   display: grid;
   grid-template-columns: 1fr 448px;
   gap: 1.5rem;
+  padding: 2rem;
+
+  @media (width < 768px) {
+    grid-template-columns: 1fr;
+  }
 
   h1 {
     font-family: 'Baloo 2', sans-serif;

@@ -7,7 +7,7 @@ import { useContext } from 'react'
 export function Success() {
   const { order } = useContext(UserContext)
   return (
-    <SuccessContainer>
+    <SuccessContainer className="success-container">
       <div className="left">
         <h1>Wow! Order placed successfully!</h1>
         <p>

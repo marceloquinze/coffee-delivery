@@ -6,8 +6,8 @@ import heroBackground from '../../../../assets/Header-Background.png'
 
 export function Hero() {
   return (
-    <HeroWrapperContainer>
-      <HeroContainer>
+    <HeroWrapperContainer className="hero-background">
+      <HeroContainer className="hero-container">
         <div className="left">
           <h1>Encontre o café perfeito para qualquer hora do dia</h1>
           <h2>

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const HeaderContainer = styled.header`
   max-width: 70rem;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,7 +44,10 @@ export const HeaderContainer = styled.header`
         background-color: ${(props) => props.theme['yellow-dark']};
         border-radius: 50%;
         color: ${(props) => props.theme.white};
-        text-align: center;
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       svg {

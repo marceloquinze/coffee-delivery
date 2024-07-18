@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const CatalogueContainer = styled.section`
   max-width: 70rem;
   margin: 0 auto;
+  padding: 0 2rem;
 
   h2 {
     margin-bottom: 4rem;
@@ -14,6 +15,22 @@ export const CatalogueContainer = styled.section`
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.5rem;
+  }
+
+  @media (width < 1025px) {
+    .items {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (width < 768px) {
+    .items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (width < 480px) {
+    .items {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
   }
 `
 export const CatalogueItemContainer = styled.div`

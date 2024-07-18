@@ -29,7 +29,7 @@ export function Checkout() {
   const inCart = itemsInCart
 
   return (
-    <CheckoutContainer>
+    <CheckoutContainer className="checkout-container">
       <section>
         <h2>Complete your order</h2>
         <UserDetailsComp
@@ -45,7 +45,7 @@ export function Checkout() {
       </section>
       <aside>
         <h2>Selected coffees</h2>
-        <MiniCartContainer>
+        <MiniCartContainer className="mini-cart-container">
           {inCart.length > 0 ? (
             <>
               <div className="items">

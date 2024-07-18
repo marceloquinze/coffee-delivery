@@ -17,7 +17,7 @@ export function UserDetailsComp({
   invalidFields,
 }: UserDetailsProps) {
   return (
-    <UserDetailsContainer>
+    <UserDetailsContainer className="user-details-container">
       <h4>
         <MapPin size={22} />
         Delivery Address
