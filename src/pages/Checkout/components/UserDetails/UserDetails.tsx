@@ -86,14 +86,6 @@ export function UserDetailsComp({
             value={userDetails.city}
             onChange={getUserDetails}
           />
-          {/* <input
-            type="select"
-            className={invalidFields.uf ? 'input-error item uf' : 'item uf'}
-            placeholder="UF"
-            name="uf"
-            value={userDetails.uf}
-            onChange={getUserDetails}
-          /> */}
           <select
             name="uf"
             className={invalidFields.uf ? 'input-error item uf' : 'item uf'}

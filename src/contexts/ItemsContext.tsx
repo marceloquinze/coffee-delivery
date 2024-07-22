@@ -30,6 +30,8 @@ interface ItemsContextProviderProps {
 
 export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
   // ------ STATES ------
+
+  // 1. Initial items
   const [items, setItems] = useState<Coffees[]>(() => {
     // initial items are fetched from JSON file, then stored in localStorage, then fetched here
     const initialItems = localStorage.getItem(
@@ -37,6 +39,8 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
     return initialItems ? JSON.parse(initialItems) : []
   })
+
+  // 2. Items in cart
   const [itemsInCart, setItemsInCart] = useState<Coffees[]>(() => {
     // initial state of the cart
     const savedCartItems = localStorage.getItem(
@@ -85,9 +89,9 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }, [items])
 
-  // ------ FUNCTIONS ------
+  // ------ HELPER FUNCTIONS ------
 
-  // 2. increment and decrement
+  // 1. increment and decrement
   function incrementItems(idToIncrement: string) {
     setItems((prevState) =>
       prevState.map((item) =>
@@ -105,7 +109,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
-  // 3. change quantity
+  // 2. change quantity
   // this will be triggered whenever the qty input changes,
   // whether it is via +/- buttons or direct typing a value
   // this can help make this a controlled input
@@ -117,7 +121,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
-  // 4. send items to cart
+  // 3. send items to cart
   // this will be triggered once we click on the cart button (onSendToCart)
   // via form event
   function sendItemsToCart(e: FormEvent<HTMLFormElement>) {
@@ -133,7 +137,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
-  // 5. remove items from cart
+  // 4. remove items from cart
   function removeItemsInCart(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
@@ -147,7 +151,7 @@ export function ItemsContextProvider({ children }: ItemsContextProviderProps) {
     )
   }
 
-  // 6. clear cart
+  // 5. clear cart
   function clearCart() {
     setItems((prevState) =>
       prevState.map((item) => ({ ...item, onCart: false, qty: 0 })),

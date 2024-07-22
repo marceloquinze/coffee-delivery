@@ -12,6 +12,12 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { ItemsContext, Coffees } from './ItemsContext'
 
+interface Validation {
+  valid: boolean
+  msgs: string[]
+  fields: { [key: string]: boolean }
+}
+
 export interface UserDetails {
   cep: string
   street: string
@@ -59,15 +65,20 @@ interface UserContextProviderProps {
 }
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
+  // ------ CONTEXTS ------
+
   const { itemsInCart, clearCart } = useContext(ItemsContext)
   const navigate = useNavigate()
 
   // ------ STATES ------
+
+  // 1. payment
   const [payment, setPayment] = useState<string>(() => {
     const savedPayment = localStorage.getItem('@coffee-delivery:payment-1.0.0')
     return savedPayment ? JSON.parse(savedPayment) : ''
   })
 
+  // 2. user details
   const [userDetails, setUserDetails] = useState<UserDetails>(() => {
     const savedUserDetails = localStorage.getItem(
       '@coffee-delivery:userDetails-1.0.0',
@@ -75,16 +86,19 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     return savedUserDetails ? JSON.parse(savedUserDetails) : {}
   })
 
+  // 3. validation
   const [validationMsg, setValidationMsg] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<{
     [key: string]: boolean
   }>({})
 
+  // 4. order
   const [order, setOrder] = useState<Order>(() => {
     const savedOrder = localStorage.getItem('@coffee-delivery:order-1.0.0')
     return savedOrder ? JSON.parse(savedOrder) : {}
   })
 
+  // 5. order history
   const [orderHistory, setOrderHistory] = useState<Order[]>(() => {
     const savedOrderHistory = localStorage.getItem(
       '@coffee-delivery:orderHistory-1.0.0',
@@ -93,6 +107,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   })
 
   // ------ EFFECTS ------
+
   // 1. set payment
   useEffect(() => {
     localStorage.setItem(
@@ -122,7 +137,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     )
   }, [orderHistory])
 
-  // ------ FUNCTIONS ------
+  // ------ HELPER FUNCTIONS ------
 
   // 1. toggle payment
   function togglePayment(
@@ -133,21 +148,14 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     setPayment(paymentType)
   }
 
-  // 7. get user details
+  // 2. get user details
   function getUserDetails(
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
   ) {
-    // console.log(e.target.value)
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
   }
 
-  interface Validation {
-    valid: boolean
-    msgs: string[]
-    fields: { [key: string]: boolean }
-  }
-
-  // 8a. validate order
+  // 3. validate order
   function validateOrder(): Validation {
     const messages: string[] = []
     const fields: { [key: string]: boolean } = {}
@@ -200,7 +208,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     return { valid: messages.length === 0, msgs: messages, fields }
   }
 
-  // 8. create order
+  // 4. create order
   function createOrder(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault()
     const validation = validateOrder()
@@ -238,10 +246,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       navigate('/success')
     }
   }
-
-  // useEffect(() => {
-  //   console.log(order)
-  // }, [order])
 
   // ------ RETURN ------
   return (
